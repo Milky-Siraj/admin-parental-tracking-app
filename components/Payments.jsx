@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { DollarSign } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import SearchBar from "@/components/SearchBar";
+import Pagination from "@/components/Pagination";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -87,6 +88,35 @@ export default function Payments() {
       status: "Eligible",
     },
   ]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentTherapistPage, setCurrentTherapistPage] = useState(1);
+  const itemsPerPage = 5;
+
+  // Calculate pagination for parent payments
+  const totalParentPages = Math.ceil(parentPayments.length / itemsPerPage);
+  const indexOfLastParentItem = currentPage * itemsPerPage;
+  const indexOfFirstParentItem = indexOfLastParentItem - itemsPerPage;
+  const currentParentItems = parentPayments.slice(
+    indexOfFirstParentItem,
+    indexOfLastParentItem
+  );
+
+  // Calculate pagination for therapist payments
+  const totalTherapistPages = Math.ceil(therapistPayments.length / itemsPerPage);
+  const indexOfLastTherapistItem = currentTherapistPage * itemsPerPage;
+  const indexOfFirstTherapistItem = indexOfLastTherapistItem - itemsPerPage;
+  const currentTherapistItems = therapistPayments.slice(
+    indexOfFirstTherapistItem,
+    indexOfLastTherapistItem
+  );
+
+  const handleParentPageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleTherapistPageChange = (pageNumber) => {
+    setCurrentTherapistPage(pageNumber);
+  };
 
   // Calculate total system earnings (sum of fees from parents and therapists)
   const totalSystemEarnings =
@@ -131,16 +161,13 @@ export default function Payments() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-gray-900 text-white">
       <Sidebar open={open} setOpen={setOpen} />
 
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-gray-100 mb-4">
-          Admin - Payments
-        </h1>
-        <p className="text-gray-400 mb-6 text-sm">
-          Manage payment transactions for parents and therapists as of 05:56 PM
-          EAT, May 20, 2025
+        <h1 className="text-3xl font-semibold text-gray-100 mb-6">Payments</h1>
+        <p className="text-gray-400 mb-8 text-sm">
+          Monitor and manage payment transactions
         </p>
 
         <SearchBar placeholder="Search payments..." />
@@ -209,7 +236,7 @@ export default function Payments() {
               </tr>
             </thead>
             <tbody>
-              {parentPayments.map((payment, index) => (
+              {currentParentItems.map((payment, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
@@ -225,6 +252,12 @@ export default function Payments() {
               ))}
             </tbody>
           </table>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalParentPages}
+            onPageChange={handleParentPageChange}
+            itemsPerPage={itemsPerPage}
+          />
         </div>
 
         <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
@@ -254,7 +287,7 @@ export default function Payments() {
               </tr>
             </thead>
             <tbody>
-              {therapistPayments.map((payment, index) => (
+              {currentTherapistItems.map((payment, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
@@ -272,6 +305,12 @@ export default function Payments() {
               ))}
             </tbody>
           </table>
+          <Pagination
+            currentPage={currentTherapistPage}
+            totalPages={totalTherapistPages}
+            onPageChange={handleTherapistPageChange}
+            itemsPerPage={itemsPerPage}
+          />
         </div>
       </div>
     </div>

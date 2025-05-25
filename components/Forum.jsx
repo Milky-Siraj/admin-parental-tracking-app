@@ -38,7 +38,7 @@ export default function Forum() {
 
   return (
     <div
-      className={`flex h-screen bg-gray-900 text-white ${montserrat.className}`}
+      className={`flex min-h-screen bg-gray-900 text-white ${montserrat.className}`}
     >
       <Sidebar open={open} setOpen={setOpen} />
 

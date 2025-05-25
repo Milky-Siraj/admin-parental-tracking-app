@@ -4,6 +4,7 @@ import { Users } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import SearchBar from "@/components/SearchBar";
 import AddTherapistModal from "@/components/AddTherapistModal";
+import Pagination from "@/components/Pagination";
 
 export default function Therapists() {
   const [open, setOpen] = useState(false);
@@ -14,6 +15,8 @@ export default function Therapists() {
   const [searchTerm, setSearchTerm] = useState("");
   const [updating, setUpdating] = useState({});
   const [currentTime, setCurrentTime] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     async function fetchTherapists() {
@@ -132,8 +135,18 @@ export default function Therapists() {
     );
   });
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredTherapists.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredTherapists.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-gray-900 text-white">
       <Sidebar open={open} setOpen={setOpen} />
       <div className="flex-1 ml-0 lg:ml-72 p-8">
         <div className="flex justify-between items-center mb-4">
@@ -191,85 +204,93 @@ export default function Therapists() {
               No therapists found. Try adjusting your search.
             </p>
           ) : (
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-gray-700">
-                  <th className="py-3 text-gray-200 font-medium">Name</th>
-                  <th className="py-3 text-gray-200 font-medium">Email</th>
-                  <th className="py-3 text-gray-200 font-medium">
-                    Educational Document
-                  </th>
-                  <th className="py-3 text-gray-200 font-medium">Status</th>
-                  <th className="py-3 text-gray-200 font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTherapists.map((therapist, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
-                  >
-                    <td className="py-3 text-gray-300">{therapist.name}</td>
-                    <td className="py-3 text-gray-300">{therapist.email}</td>
-                    <td className="py-3 text-gray-300">
-                      {therapist.credentials !== "N/A" ? (
-                        <span className="flex items-center">
-                          <a
-                            href={therapist.credentials}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-indigo-400 hover:underline"
-                          >
-                            View Document
-                          </a>
-                        </span>
-                      ) : (
-                        "N/A"
-                      )}
-                    </td>
-                    <td className="py-3">
-                      <span
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          therapist.status === "Active"
-                            ? "bg-green-600"
-                            : "bg-yellow-600"
-                        } text-white`}
-                      >
-                        {therapist.status}
-                      </span>
-                    </td>
-                    <td className="py-3 flex space-x-2">
-                      <button
-                        onClick={() => handleUpdateStatus(therapist.id, true)}
-                        disabled={
-                          updating[therapist.id] || therapist.admin_approved
-                        }
-                        className={`py-1 px-3 rounded text-sm ${
-                          therapist.admin_approved
-                            ? "bg-gray-600 cursor-not-allowed"
-                            : "bg-green-600 hover:bg-green-500"
-                        } text-white transition duration-200`}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() => handleUpdateStatus(therapist.id, false)}
-                        disabled={
-                          updating[therapist.id] || !therapist.admin_approved
-                        }
-                        className={`py-1 px-3 rounded text-sm ${
-                          !therapist.admin_approved
-                            ? "bg-gray-600 cursor-not-allowed"
-                            : "bg-red-600 hover:bg-red-500"
-                        } text-white transition duration-200`}
-                      >
-                        Reject
-                      </button>
-                    </td>
+            <>
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b border-gray-700">
+                    <th className="py-3 text-gray-200 font-medium">Name</th>
+                    <th className="py-3 text-gray-200 font-medium">Email</th>
+                    <th className="py-3 text-gray-200 font-medium">
+                      Educational Document
+                    </th>
+                    <th className="py-3 text-gray-200 font-medium">Status</th>
+                    <th className="py-3 text-gray-200 font-medium">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {currentItems.map((therapist, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
+                    >
+                      <td className="py-3 text-gray-300">{therapist.name}</td>
+                      <td className="py-3 text-gray-300">{therapist.email}</td>
+                      <td className="py-3 text-gray-300">
+                        {therapist.credentials !== "N/A" ? (
+                          <span className="flex items-center">
+                            <a
+                              href={therapist.credentials}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-indigo-400 hover:underline"
+                            >
+                              View Document
+                            </a>
+                          </span>
+                        ) : (
+                          "N/A"
+                        )}
+                      </td>
+                      <td className="py-3">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm ${
+                            therapist.status === "Active"
+                              ? "bg-green-600"
+                              : "bg-yellow-600"
+                          } text-white`}
+                        >
+                          {therapist.status}
+                        </span>
+                      </td>
+                      <td className="py-3 flex space-x-2">
+                        <button
+                          onClick={() => handleUpdateStatus(therapist.id, true)}
+                          disabled={
+                            updating[therapist.id] || therapist.admin_approved
+                          }
+                          className={`py-1 px-3 rounded text-sm ${
+                            therapist.admin_approved
+                              ? "bg-gray-600 cursor-not-allowed"
+                              : "bg-green-600 hover:bg-green-500"
+                          } text-white transition duration-200`}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => handleUpdateStatus(therapist.id, false)}
+                          disabled={
+                            updating[therapist.id] || !therapist.admin_approved
+                          }
+                          className={`py-1 px-3 rounded text-sm ${
+                            !therapist.admin_approved
+                              ? "bg-gray-600 cursor-not-allowed"
+                              : "bg-red-600 hover:bg-red-500"
+                          } text-white transition duration-200`}
+                        >
+                          Reject
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={itemsPerPage}
+              />
+            </>
           )}
         </div>
         <AddTherapistModal

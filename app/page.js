@@ -5,7 +5,7 @@ import Test from "@/components/test";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="bg-gray-900">
       <AdminLogin />
     </div>
   );

@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { Montserrat } from "next/font/google";
 import SearchBar from "@/components/SearchBar";
 import { format } from "date-fns";
+import Pagination from "@/components/Pagination";
 
 // Initialize Montserrat font
 const montserrat = Montserrat({
@@ -21,7 +22,9 @@ export default function ParentsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentTime, setCurrentTime] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); // New state for search term
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     async function fetchParents() {
@@ -73,6 +76,16 @@ export default function ParentsList() {
     return matchesParent || matchesChild;
   });
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredParents.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredParents.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div
       className={`flex min-h-screen bg-gray-900 text-white ${montserrat.className}`}
@@ -109,117 +122,125 @@ export default function ParentsList() {
               No parents found. Try adjusting your search.
             </p>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-3 text-gray-200 font-medium w-1/5">
-                      Parent Name
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-2/5">
-                      Email
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-1/5">
-                      Role
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-1/5">
-                      Number of Children
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-1/10"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredParents.map((parent) => (
-                    <React.Fragment key={parent.id}>
-                      <tr
-                        className="border-b border-gray-700 hover:bg-gray-800 transition duration-200 cursor-pointer"
-                        onClick={() => toggleRow(parent.id)}
-                      >
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {parent.firstName} {parent.lastName}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {parent.email}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {parent.role}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {parent.children.length}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {expandedRows[parent.id] ? (
-                            <ChevronUp className="h-5 w-5" />
-                          ) : (
-                            <ChevronDown className="h-5 w-5" />
-                          )}
-                        </td>
-                      </tr>
-                      {expandedRows[parent.id] && (
-                        <tr>
-                          <td colSpan="5" className="p-0">
-                            <div className="bg-gray-800 p-4">
-                              <h3 className="text-lg font-medium text-gray-200 mb-3">
-                                Children of {parent.firstName} {parent.lastName}
-                              </h3>
-                              {parent.children.length === 0 ? (
-                                <p className="text-gray-400">
-                                  No children found
-                                </p>
-                              ) : (
-                                <table className="w-full text-left border-collapse">
-                                  <thead>
-                                    <tr className="border-b border-gray-700">
-                                      <th className="py-2 text-gray-200 font-medium w-1/5">
-                                        Child Name
-                                      </th>
-                                      <th className="py-2 text-gray-200 font-medium w-1/5">
-                                        Gender
-                                      </th>
-                                      <th className="py-2 text-gray-200 font-medium w-1/5">
-                                        Date of Birth
-                                      </th>
-                                      <th className="py-2 text-gray-200 font-medium w-2/5">
-                                        Latest Health Metrics
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {parent.children.map((child) => (
-                                      <tr
-                                        key={child.id}
-                                        className="border-b border-gray-700 hover:bg-gray-700 transition duration-200"
-                                      >
-                                        <td className="py-2 text-gray-300 font-normal break-words">
-                                          {child.firstName} {child.lastName}
-                                        </td>
-                                        <td className="py-2 text-gray-300 font-normal break-words">
-                                          {child.gender}
-                                        </td>
-                                        <td className="py-2 text-gray-300 font-normal break-words">
-                                          {child.dateOfBirth}
-                                        </td>
-                                        <td className="py-2 text-gray-300 font-normal break-words">
-                                          Heart Rate:{" "}
-                                          {child.healthMetrics.heartRate},
-                                          Sleep: {child.healthMetrics.sleep},
-                                          Behavior:{" "}
-                                          {child.healthMetrics.behavior}
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              )}
-                            </div>
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-700">
+                      <th className="py-3 text-gray-200 font-medium w-1/5">
+                        Parent Name
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-2/5">
+                        Email
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-1/5">
+                        Role
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-1/5">
+                        Number of Children
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-1/10"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentItems.map((parent) => (
+                      <React.Fragment key={parent.id}>
+                        <tr
+                          className="border-b border-gray-700 hover:bg-gray-800 transition duration-200 cursor-pointer"
+                          onClick={() => toggleRow(parent.id)}
+                        >
+                          <td className="py-3 text-gray-300 font-normal break-words">
+                            {parent.firstName} {parent.lastName}
+                          </td>
+                          <td className="py-3 text-gray-300 font-normal break-words">
+                            {parent.email}
+                          </td>
+                          <td className="py-3 text-gray-300 font-normal break-words">
+                            {parent.role}
+                          </td>
+                          <td className="py-3 text-gray-300 font-normal break-words">
+                            {parent.children.length}
+                          </td>
+                          <td className="py-3 text-gray-300 font-normal break-words">
+                            {expandedRows[parent.id] ? (
+                              <ChevronUp className="h-5 w-5" />
+                            ) : (
+                              <ChevronDown className="h-5 w-5" />
+                            )}
                           </td>
                         </tr>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        {expandedRows[parent.id] && (
+                          <tr>
+                            <td colSpan="5" className="p-0">
+                              <div className="bg-gray-800 p-4">
+                                <h3 className="text-lg font-medium text-gray-200 mb-3">
+                                  Children of {parent.firstName} {parent.lastName}
+                                </h3>
+                                {parent.children.length === 0 ? (
+                                  <p className="text-gray-400">
+                                    No children found
+                                  </p>
+                                ) : (
+                                  <table className="w-full text-left border-collapse">
+                                    <thead>
+                                      <tr className="border-b border-gray-700">
+                                        <th className="py-2 text-gray-200 font-medium w-1/5">
+                                          Child Name
+                                        </th>
+                                        <th className="py-2 text-gray-200 font-medium w-1/5">
+                                          Gender
+                                        </th>
+                                        <th className="py-2 text-gray-200 font-medium w-1/5">
+                                          Date of Birth
+                                        </th>
+                                        <th className="py-2 text-gray-200 font-medium w-2/5">
+                                          Latest Health Metrics
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {parent.children.map((child) => (
+                                        <tr
+                                          key={child.id}
+                                          className="border-b border-gray-700 hover:bg-gray-700 transition duration-200"
+                                        >
+                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                            {child.firstName} {child.lastName}
+                                          </td>
+                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                            {child.gender}
+                                          </td>
+                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                            {child.dateOfBirth}
+                                          </td>
+                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                            Heart Rate:{" "}
+                                            {child.healthMetrics.heartRate},
+                                            Sleep: {child.healthMetrics.sleep},
+                                            Behavior:{" "}
+                                            {child.healthMetrics.behavior}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={itemsPerPage}
+              />
+            </>
           )}
         </div>
       </div>

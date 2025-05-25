@@ -4,6 +4,7 @@ import { FileText } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import SearchBar from "@/components/SearchBar";
 import { format } from "date-fns";
+import Pagination from "@/components/Pagination";
 
 export default function Reports() {
   const [open, setOpen] = useState(false);
@@ -12,6 +13,8 @@ export default function Reports() {
   const [error, setError] = useState(null);
   const [currentTime, setCurrentTime] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Fetch data and set timestamp on mount
   useEffect(() => {
@@ -47,6 +50,16 @@ export default function Reports() {
       report.insight.toLowerCase().includes(searchLower)
     );
   });
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredReports.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-900 text-white">
@@ -110,58 +123,66 @@ export default function Reports() {
               No reports found. Try adjusting your search.
             </p>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-3 text-gray-200 font-medium w-1/6">
-                      Child
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-1/6">
-                      Parent
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-1/6">
-                      Type
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-1/6">
-                      Date
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-2/6">
-                      Health Metrics
-                    </th>
-                    <th className="py-3 text-gray-200 font-medium w-1/6">
-                      AI Insight
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredReports.map((report, index) => (
-                    <tr key={index} className="border-b border-gray-700 ">
-                      <td className="py-3 text-gray-300 font-normal break-words">
-                        {report.child}
-                      </td>
-                      <td className="py-3 text-gray-300 font-normal break-words">
-                        {report.parent}
-                      </td>
-                      <td className="py-3 text-gray-300 font-normal break-words">
-                        {report.type}
-                      </td>
-                      <td className="py-3 text-gray-300 font-normal break-words">
-                        {report.date}
-                      </td>
-                      <td className="py-3 text-gray-300 font-normal break-words">
-                        Heart Rate: {report.healthMetrics.heartRate}, Sleep:{" "}
-                        {report.healthMetrics.sleep}, Behavior:{" "}
-                        {report.healthMetrics.behavior}
-                      </td>
-                      <td className="py-3 text-gray-300 font-normal break-words">
-                        {report.insight}
-                      </td>
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-700">
+                      <th className="py-3 text-gray-200 font-medium w-1/6">
+                        Child
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-1/6">
+                        Parent
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-1/6">
+                        Type
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-1/6">
+                        Date
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-2/6">
+                        Health Metrics
+                      </th>
+                      <th className="py-3 text-gray-200 font-medium w-1/6">
+                        AI Insight
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {currentItems.map((report, index) => (
+                      <tr key={index} className="border-b border-gray-700 ">
+                        <td className="py-3 text-gray-300 font-normal break-words">
+                          {report.child}
+                        </td>
+                        <td className="py-3 text-gray-300 font-normal break-words">
+                          {report.parent}
+                        </td>
+                        <td className="py-3 text-gray-300 font-normal break-words">
+                          {report.type}
+                        </td>
+                        <td className="py-3 text-gray-300 font-normal break-words">
+                          {report.date}
+                        </td>
+                        <td className="py-3 text-gray-300 font-normal break-words">
+                          Heart Rate: {report.healthMetrics.heartRate}, Sleep:{" "}
+                          {report.healthMetrics.sleep}, Behavior:{" "}
+                          {report.healthMetrics.behavior}
+                        </td>
+                        <td className="py-3 text-gray-300 font-normal break-words">
+                          {report.insight}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={itemsPerPage}
+              />
+            </>
           )}
         </div>
       </div>

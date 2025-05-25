@@ -237,7 +237,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-gray-900 text-white">
       <Sidebar open={open} setOpen={setOpen} />
       <div className="flex-1 ml-0 lg:ml-72 p-8">
         <h1 className="text-3xl font-semibold text-gray-100 mb-6">Dashboard</h1>
