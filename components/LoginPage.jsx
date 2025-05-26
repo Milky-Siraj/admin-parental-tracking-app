@@ -66,26 +66,26 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-[#0d0e2b] to-[#0a0b1f]">
-      <div className="bg-black rounded-lg shadow-lg p-8 w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="bg-[#FFF8E1] rounded-lg shadow-lg p-8 w-full max-w-md border border-[#FFE0B2]">
         <div className="flex justify-center mb-6">
-          <BrainCircuit className="h-12 w-12 text-indigo-500" />
+          <BrainCircuit className="h-12 w-12 text-[#26A69A]" />
         </div>
 
-        <h2 className="text-white text-2xl font-semibold text-center mb-1">
+        <h2 className="text-[#2D3748] text-2xl font-semibold text-center mb-1">
           Admin Login
         </h2>
-        <p className="text-gray-400 text-sm text-center mb-6">
+        <p className="text-[#4A5568] text-sm text-center mb-6">
           Enter your email and password to access the admin dashboard as of 7:20
           AM EAT, May 22, 2025
         </p>
 
         {error && (
-          <div className="text-red-500 text-sm text-center mb-4">
+          <div className="text-[#FF8A80] text-sm text-center mb-4">
             {error}
             <button
               onClick={resetForm}
-              className="ml-2 text-indigo-500 underline text-sm"
+              className="ml-2 text-[#26A69A] underline text-sm"
             >
               Try again
             </button>
@@ -98,7 +98,7 @@ export default function LoginPage() {
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
-            className="w-full px-4 py-2 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md bg-white text-[#2D3748] border border-[#FFE0B2] placeholder-[#4A5568] focus:outline-none focus:ring-2 focus:ring-[#26A69A]"
             required
             disabled={loading}
           />
@@ -107,7 +107,7 @@ export default function LoginPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-md bg-white text-[#2D3748] border border-[#FFE0B2] placeholder-[#4A5568] focus:outline-none focus:ring-2 focus:ring-[#26A69A]"
             required
             disabled={loading}
           />
@@ -116,8 +116,8 @@ export default function LoginPage() {
             disabled={loading}
             className={`w-full py-2 rounded-md font-semibold transition ${
               loading
-                ? "bg-gray-600 cursor-not-allowed"
-                : "bg-white text-black hover:bg-gray-200"
+                ? "bg-[#4A5568] cursor-not-allowed"
+                : "bg-[#26A69A] text-white hover:bg-[#4DB6AC]"
             }`}
           >
             {loading ? "Signing In..." : "Sign In"}

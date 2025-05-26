@@ -146,93 +146,93 @@ export default function Therapists() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-white text-gray-800">
       <Sidebar open={open} setOpen={setOpen} />
       <div className="flex-1 ml-0 lg:ml-72 p-8">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-semibold text-gray-100">Therapists</h1>
+          <h1 className="text-3xl font-semibold text-[#2D3748]">Therapists</h1>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition duration-200"
+            className="py-2 px-4 bg-[#26A69A] text-white rounded-lg hover:bg-[#4DB6AC] transition duration-200"
           >
             Add Therapist
           </button>
         </div>
-        <p className="text-gray-400 mb-6 text-sm">
+        <p className="text-[#4A5568] mb-6 text-sm">
           Manage and monitor all therapists as of {currentTime || "Loading..."}
         </p>
-        {error && <div className="text-red-500 mb-4">Error: {error}</div>}
+        {error && <div className="text-[#FF8A80] mb-4">Error: {error}</div>}
         <SearchBar
           placeholder="Search by name, email, or status..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <Users className="h-6 w-6 text-gray-400" />
+              <Users className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">
+            <h3 className="text-lg font-medium text-[#2D3748]">
               Total Therapists
             </h3>
-            <p className="text-2xl font-semibold text-white mt-2">
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">
               {loading ? "Loading..." : therapists.length}
             </p>
           </div>
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <Users className="h-6 w-6 text-gray-400" />
+              <Users className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">
+            <h3 className="text-lg font-medium text-[#2D3748]">
               Active Therapists
             </h3>
-            <p className="text-2xl font-semibold text-white mt-2">
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">
               {loading
                 ? "Loading..."
                 : therapists.filter((t) => t.status === "Active").length}
             </p>
           </div>
         </div>
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
             Therapist List
           </h2>
           {loading ? (
-            <p className="text-gray-400">Loading therapists...</p>
+            <p className="text-[#4A5568]">Loading therapists...</p>
           ) : filteredTherapists.length === 0 ? (
-            <p className="text-gray-400">
+            <p className="text-[#4A5568]">
               No therapists found. Try adjusting your search.
             </p>
           ) : (
             <>
               <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-3 text-gray-200 font-medium">Name</th>
-                    <th className="py-3 text-gray-200 font-medium">Email</th>
-                    <th className="py-3 text-gray-200 font-medium">
+                  <tr className="border-b border-[#FFE0B2]">
+                    <th className="py-3 text-[#2D3748] font-medium">Name</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Email</th>
+                    <th className="py-3 text-[#2D3748] font-medium">
                       Educational Document
                     </th>
-                    <th className="py-3 text-gray-200 font-medium">Status</th>
-                    <th className="py-3 text-gray-200 font-medium">Actions</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Status</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentItems.map((therapist, index) => (
                     <tr
                       key={index}
-                      className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
+                      className="border-b border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200"
                     >
-                      <td className="py-3 text-gray-300">{therapist.name}</td>
-                      <td className="py-3 text-gray-300">{therapist.email}</td>
-                      <td className="py-3 text-gray-300">
+                      <td className="py-3 text-[#4A5568]">{therapist.name}</td>
+                      <td className="py-3 text-[#4A5568]">{therapist.email}</td>
+                      <td className="py-3 text-[#4A5568]">
                         {therapist.credentials !== "N/A" ? (
                           <span className="flex items-center">
                             <a
                               href={therapist.credentials}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-indigo-400 hover:underline"
+                              className="text-[#26A69A] hover:underline"
                             >
                               View Document
                             </a>
@@ -245,8 +245,8 @@ export default function Therapists() {
                         <span
                           className={`px-3 py-1 rounded-full text-sm ${
                             therapist.status === "Active"
-                              ? "bg-green-600"
-                              : "bg-yellow-600"
+                              ? "bg-[#81C784]"
+                              : "bg-[#FFB74D]"
                           } text-white`}
                         >
                           {therapist.status}
@@ -260,8 +260,8 @@ export default function Therapists() {
                           }
                           className={`py-1 px-3 rounded text-sm ${
                             therapist.admin_approved
-                              ? "bg-gray-600 cursor-not-allowed"
-                              : "bg-green-600 hover:bg-green-500"
+                              ? "bg-[#4A5568] cursor-not-allowed"
+                              : "bg-[#81C784] hover:bg-[#4DB6AC]"
                           } text-white transition duration-200`}
                         >
                           Accept
@@ -273,8 +273,8 @@ export default function Therapists() {
                           }
                           className={`py-1 px-3 rounded text-sm ${
                             !therapist.admin_approved
-                              ? "bg-gray-600 cursor-not-allowed"
-                              : "bg-red-600 hover:bg-red-500"
+                              ? "bg-[#4A5568] cursor-not-allowed"
+                              : "bg-[#FF8A65] hover:bg-[#FF8A80]"
                           } text-white transition duration-200`}
                         >
                           Reject

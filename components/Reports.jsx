@@ -62,16 +62,16 @@ export default function Reports() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-white text-gray-800">
       <Sidebar open={open} setOpen={setOpen} />
 
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-gray-100 mb-6">Reports</h1>
-        <p className="text-gray-400 mb-8 text-sm">
+        <h1 className="text-3xl font-semibold text-[#2D3748] mb-6">Reports</h1>
+        <p className="text-[#4A5568] mb-8 text-sm">
           View and analyze generated reports as of {currentTime || "Loading..."}
         </p>
 
-        {error && <div className="text-red-500 mb-4">Error: {error}</div>}
+        {error && <div className="text-[#FF8A80] mb-4">Error: {error}</div>}
 
         <SearchBar
           placeholder="Search by child, parent, type, date, or metrics..."
@@ -80,12 +80,12 @@ export default function Reports() {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <FileText className="h-6 w-6 text-gray-400" />
+              <FileText className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">Daily Reports</h3>
-            <p className="text-2xl font-semibold text-white mt-2">
+            <h3 className="text-lg font-medium text-[#2D3748]">Daily Reports</h3>
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">
               {loading
                 ? "Loading..."
                 : error
@@ -93,14 +93,14 @@ export default function Reports() {
                 : reports.filter((r) => r.type === "Daily").length}
             </p>
           </div>
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <FileText className="h-6 w-6 text-gray-400" />
+              <FileText className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">
+            <h3 className="text-lg font-medium text-[#2D3748]">
               Weekly Reports
             </h3>
-            <p className="text-2xl font-semibold text-white mt-2">
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">
               {loading
                 ? "Loading..."
                 : error
@@ -110,72 +110,51 @@ export default function Reports() {
           </div>
         </div>
 
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
-            Report Summary
+        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
+            Health Reports
           </h2>
-          {loading || !currentTime ? (
-            <p className="text-gray-400">Loading reports...</p>
+          {loading ? (
+            <p className="text-[#4A5568]">Loading reports...</p>
           ) : error ? (
-            <p className="text-red-500">Failed to load reports</p>
-          ) : filteredReports.length === 0 ? (
-            <p className="text-gray-400">
-              No reports found. Try adjusting your search.
-            </p>
+            <p className="text-[#FF8A80]">Failed to load reports</p>
+          ) : reports.length === 0 ? (
+            <p className="text-[#4A5568]">No reports found</p>
           ) : (
             <>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-700">
-                      <th className="py-3 text-gray-200 font-medium w-1/6">
-                        Child
-                      </th>
-                      <th className="py-3 text-gray-200 font-medium w-1/6">
-                        Parent
-                      </th>
-                      <th className="py-3 text-gray-200 font-medium w-1/6">
-                        Type
-                      </th>
-                      <th className="py-3 text-gray-200 font-medium w-1/6">
-                        Date
-                      </th>
-                      <th className="py-3 text-gray-200 font-medium w-2/6">
-                        Health Metrics
-                      </th>
-                      <th className="py-3 text-gray-200 font-medium w-1/6">
-                        AI Insight
-                      </th>
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b border-[#FFE0B2]">
+                    <th className="py-3 text-[#2D3748] font-medium">Child</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Parent</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Type</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Date</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Metrics</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Insight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentItems.map((report, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200"
+                    >
+                      <td className="py-3 text-[#4A5568]">{report.child}</td>
+                      <td className="py-3 text-[#4A5568]">{report.parent}</td>
+                      <td className="py-3 text-[#4A5568]">{report.type}</td>
+                      <td className="py-3 text-[#4A5568]">{report.date}</td>
+                      <td className="py-3 text-[#4A5568]">
+                        <div className="space-y-1">
+                          <p>Heart Rate: {report.healthMetrics.heartRate}</p>
+                          <p>Sleep: {report.healthMetrics.sleep}</p>
+                          <p>Behavior: {report.healthMetrics.behavior}</p>
+                        </div>
+                      </td>
+                      <td className="py-3 text-[#4A5568]">{report.insight}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {currentItems.map((report, index) => (
-                      <tr key={index} className="border-b border-gray-700 ">
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {report.child}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {report.parent}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {report.type}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {report.date}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          Heart Rate: {report.healthMetrics.heartRate}, Sleep:{" "}
-                          {report.healthMetrics.sleep}, Behavior:{" "}
-                          {report.healthMetrics.behavior}
-                        </td>
-                        <td className="py-3 text-gray-300 font-normal break-words">
-                          {report.insight}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

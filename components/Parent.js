@@ -88,20 +88,20 @@ export default function ParentsList() {
 
   return (
     <div
-      className={`flex min-h-screen bg-gray-900 text-white ${montserrat.className}`}
+      className={`flex min-h-screen bg-white text-gray-800 ${montserrat.className}`}
     >
       <Sidebar open={open} setOpen={setOpen} />
 
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-gray-100 mb-6">
+        <h1 className="text-3xl font-semibold text-[#2D3748] mb-6">
           Parents List
         </h1>
-        <p className="text-gray-400 mb-8 text-sm">
+        <p className="text-[#4A5568] mb-8 text-sm">
           View all parents and their children as of{" "}
           {currentTime || "Loading..."}
         </p>
 
-        {error && <div className="text-red-500 mb-4">Error: {error}</div>}
+        {error && <div className="text-[#FF8A80] mb-4">Error: {error}</div>}
 
         <SearchBar
           placeholder="Search by parent, email, role, or child details..."
@@ -109,16 +109,16 @@ export default function ParentsList() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
             Parents Overview
           </h2>
           {loading || !currentTime ? (
-            <p className="text-gray-400">Loading parents...</p>
+            <p className="text-[#4A5568]">Loading parents...</p>
           ) : error ? (
-            <p className="text-red-500">Failed to load parents</p>
+            <p className="text-[#FF8A80]">Failed to load parents</p>
           ) : filteredParents.length === 0 ? (
-            <p className="text-gray-400">
+            <p className="text-[#4A5568]">
               No parents found. Try adjusting your search.
             </p>
           ) : (
@@ -126,42 +126,42 @@ export default function ParentsList() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-gray-700">
-                      <th className="py-3 text-gray-200 font-medium w-1/5">
+                    <tr className="border-b border-[#FFE0B2]">
+                      <th className="py-3 text-[#2D3748] font-medium w-1/5">
                         Parent Name
                       </th>
-                      <th className="py-3 text-gray-200 font-medium w-2/5">
+                      <th className="py-3 text-[#2D3748] font-medium w-2/5">
                         Email
                       </th>
-                      <th className="py-3 text-gray-200 font-medium w-1/5">
+                      <th className="py-3 text-[#2D3748] font-medium w-1/5">
                         Role
                       </th>
-                      <th className="py-3 text-gray-200 font-medium w-1/5">
+                      <th className="py-3 text-[#2D3748] font-medium w-1/5">
                         Number of Children
                       </th>
-                      <th className="py-3 text-gray-200 font-medium w-1/10"></th>
+                      <th className="py-3 text-[#2D3748] font-medium w-1/10"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {currentItems.map((parent) => (
                       <React.Fragment key={parent.id}>
                         <tr
-                          className="border-b border-gray-700 hover:bg-gray-800 transition duration-200 cursor-pointer"
+                          className="border-b border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200 cursor-pointer"
                           onClick={() => toggleRow(parent.id)}
                         >
-                          <td className="py-3 text-gray-300 font-normal break-words">
+                          <td className="py-3 text-[#4A5568] font-normal break-words">
                             {parent.firstName} {parent.lastName}
                           </td>
-                          <td className="py-3 text-gray-300 font-normal break-words">
+                          <td className="py-3 text-[#4A5568] font-normal break-words">
                             {parent.email}
                           </td>
-                          <td className="py-3 text-gray-300 font-normal break-words">
+                          <td className="py-3 text-[#4A5568] font-normal break-words">
                             {parent.role}
                           </td>
-                          <td className="py-3 text-gray-300 font-normal break-words">
+                          <td className="py-3 text-[#4A5568] font-normal break-words">
                             {parent.children.length}
                           </td>
-                          <td className="py-3 text-gray-300 font-normal break-words">
+                          <td className="py-3 text-[#4A5568] font-normal break-words">
                             {expandedRows[parent.id] ? (
                               <ChevronUp className="h-5 w-5" />
                             ) : (
@@ -172,28 +172,28 @@ export default function ParentsList() {
                         {expandedRows[parent.id] && (
                           <tr>
                             <td colSpan="5" className="p-0">
-                              <div className="bg-gray-800 p-4">
-                                <h3 className="text-lg font-medium text-gray-200 mb-3">
+                              <div className="bg-[#FFF8E1] p-4">
+                                <h3 className="text-lg font-medium text-[#2D3748] mb-3">
                                   Children of {parent.firstName} {parent.lastName}
                                 </h3>
                                 {parent.children.length === 0 ? (
-                                  <p className="text-gray-400">
+                                  <p className="text-[#4A5568]">
                                     No children found
                                   </p>
                                 ) : (
                                   <table className="w-full text-left border-collapse">
                                     <thead>
-                                      <tr className="border-b border-gray-700">
-                                        <th className="py-2 text-gray-200 font-medium w-1/5">
+                                      <tr className="border-b border-[#FFE0B2]">
+                                        <th className="py-2 text-[#2D3748] font-medium w-1/5">
                                           Child Name
                                         </th>
-                                        <th className="py-2 text-gray-200 font-medium w-1/5">
+                                        <th className="py-2 text-[#2D3748] font-medium w-1/5">
                                           Gender
                                         </th>
-                                        <th className="py-2 text-gray-200 font-medium w-1/5">
+                                        <th className="py-2 text-[#2D3748] font-medium w-1/5">
                                           Date of Birth
                                         </th>
-                                        <th className="py-2 text-gray-200 font-medium w-2/5">
+                                        <th className="py-2 text-[#2D3748] font-medium w-2/5">
                                           Latest Health Metrics
                                         </th>
                                       </tr>
@@ -202,18 +202,18 @@ export default function ParentsList() {
                                       {parent.children.map((child) => (
                                         <tr
                                           key={child.id}
-                                          className="border-b border-gray-700 hover:bg-gray-700 transition duration-200"
+                                          className="border-b border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200"
                                         >
-                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                          <td className="py-2 text-[#4A5568] font-normal break-words">
                                             {child.firstName} {child.lastName}
                                           </td>
-                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                          <td className="py-2 text-[#4A5568] font-normal break-words">
                                             {child.gender}
                                           </td>
-                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                          <td className="py-2 text-[#4A5568] font-normal break-words">
                                             {child.dateOfBirth}
                                           </td>
-                                          <td className="py-2 text-gray-300 font-normal break-words">
+                                          <td className="py-2 text-[#4A5568] font-normal break-words">
                                             Heart Rate:{" "}
                                             {child.healthMetrics.heartRate},
                                             Sleep: {child.healthMetrics.sleep},

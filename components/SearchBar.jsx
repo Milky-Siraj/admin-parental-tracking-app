@@ -14,9 +14,9 @@ export default function SearchBar({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full py-2 px-4 pr-10 bg-[#1A1A1A] text-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
+        className="w-full py-2 px-4 pr-10 bg-white text-[#2D3748] border border-[#FFE0B2] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#26A69A] placeholder-[#4A5568]"
       />
-      <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+      <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#4A5568]" />
     </div>
   );
 }

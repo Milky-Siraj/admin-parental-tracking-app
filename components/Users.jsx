@@ -12,6 +12,7 @@ export default function Users() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentTime, setCurrentTime] = useState("");
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -50,6 +51,17 @@ export default function Users() {
       }
     }
     fetchUsers();
+    setCurrentTime(
+      new Date().toLocaleString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "Africa/Nairobi",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    );
   }, []);
 
   const filteredUsers = users.filter((user) => {
@@ -73,73 +85,66 @@ export default function Users() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-white text-gray-800">
       <Sidebar open={open} setOpen={setOpen} />
 
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-gray-100 mb-6">Users</h1>
-        <p className="text-gray-400 mb-8 text-sm">
-          Manage and monitor all users in the system
+        <h1 className="text-3xl font-semibold text-[#2D3748] mb-6">Users</h1>
+        <p className="text-[#4A5568] mb-8 text-sm">
+          Manage and monitor all users as of {currentTime || "Loading..."}
         </p>
 
-        {error && <div className="text-red-500 mb-4">Error: {error}</div>}
+        {error && <div className="text-[#FF8A80] mb-4">Error: {error}</div>}
 
-        <div className="bg-[#1A1A1A] p-4 rounded-lg mt-6">
-          <div className="mb-4">
-            <h2 className="text-lg font-medium text-gray-300">All Users</h2>
-            <p className="text-sm text-gray-400">
-              Monitor user activity and roles in the system.
-            </p>
-          </div>
-          <SearchBar
-            placeholder="Search by name, email, or status..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <SearchBar
+          placeholder="Search by name, email, role, or status..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
+            User List
+          </h2>
           {loading ? (
-            <p className="text-gray-400 mt-4">Loading users...</p>
-          ) : filteredUsers.length === 0 ? (
-            <p className="text-gray-400 mt-4">No users found.</p>
+            <p className="text-[#4A5568]">Loading users...</p>
+          ) : error ? (
+            <p className="text-[#FF8A80]">Failed to load users</p>
+          ) : users.length === 0 ? (
+            <p className="text-[#4A5568]">No users found</p>
           ) : (
             <>
-              <table className="w-full text-left mt-4">
+              <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-4 text-gray-200 font-medium">User</th>
-                    <th className="py-4 text-gray-200 font-medium">Role</th>
-                    <th className="py-4 text-gray-200 font-medium">Status</th>
-                    <th className="py-4 text-gray-200 font-medium">Created At</th>
+                  <tr className="border-b border-[#FFE0B2]">
+                    <th className="py-3 text-[#2D3748] font-medium">Name</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Email</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Role</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Status</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Created At</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((user) => (
+                  {currentItems.map((user, index) => (
                     <tr
-                      key={user.id}
-                      className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
+                      key={index}
+                      className="border-b border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200"
                     >
-                      <td className="py-4 text-gray-300">
-                        {user.user}
-                        <div className="text-gray-400 text-sm">{user.email}</div>
-                      </td>
-                      <td className="py-4">
-                        <span className="px-3 py-1 bg-gray-600 text-white rounded-full text-sm">
-                          {user.role}
-                        </span>
-                      </td>
-                      <td className="py-4">
+                      <td className="py-3 text-[#4A5568]">{user.user}</td>
+                      <td className="py-3 text-[#4A5568]">{user.email}</td>
+                      <td className="py-3 text-[#4A5568]">{user.role}</td>
+                      <td className="py-3">
                         <span
                           className={`px-3 py-1 rounded-full text-sm ${
                             user.status === "Active"
-                              ? "bg-green-600"
-                              : "bg-yellow-600"
+                              ? "bg-[#81C784]"
+                              : "bg-[#FFB74D]"
                           } text-white`}
                         >
                           {user.status}
                         </span>
                       </td>
-                      <td className="py-4 text-gray-400 text-sm">
-                        {user.createdAt}
-                      </td>
+                      <td className="py-3 text-[#4A5568]">{user.createdAt}</td>
                     </tr>
                   ))}
                 </tbody>

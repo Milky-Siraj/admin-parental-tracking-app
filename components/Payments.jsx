@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { DollarSign } from "lucide-react";
+import { DollarSign, MessageSquare } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import SearchBar from "@/components/SearchBar";
 import Pagination from "@/components/Pagination";
@@ -13,7 +13,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 
 // Register Chart.js components
 ChartJS.register(
@@ -161,156 +161,86 @@ export default function Payments() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-white text-gray-800">
       <Sidebar open={open} setOpen={setOpen} />
 
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-gray-100 mb-6">Payments</h1>
-        <p className="text-gray-400 mb-8 text-sm">
+        <h1 className="text-3xl font-semibold text-[#2D3748] mb-6">Payments</h1>
+        <p className="text-[#4A5568] mb-8 text-sm">
           Monitor and manage payment transactions
         </p>
 
         <SearchBar placeholder="Search payments..." />
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <DollarSign className="h-6 w-6 text-gray-400" />
+              <MessageSquare className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">
+            <h3 className="text-lg font-medium text-[#2D3748]">
               Total Parent Payments
             </h3>
-            <p className="text-2xl font-semibold text-white mt-2">$150</p>
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">
+              ${parentPayments.reduce((sum, p) => sum + p.paid, 0).toFixed(2)}
+            </p>
           </div>
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <DollarSign className="h-6 w-6 text-gray-400" />
+              <MessageSquare className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">
+            <h3 className="text-lg font-medium text-[#2D3748]">
               Total Therapist Earnings
             </h3>
-            <p className="text-2xl font-semibold text-white mt-2">$150</p>
-          </div>
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
-            <div className="flex justify-center mb-3">
-              <DollarSign className="h-6 w-6 text-gray-400" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-200">
-              Total System Earnings
-            </h3>
-            <p className="text-2xl font-semibold text-white mt-2">
-              ${totalSystemEarnings}
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">
+              ${therapistPayments.reduce((sum, t) => sum + t.earned, 0).toFixed(2)}
             </p>
           </div>
         </div>
 
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg mb-6">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
-            Payment Breakdown Visualization
-          </h2>
-          <div className="h-64">
-            <Bar data={paymentBreakdownData} options={chartOptions} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
+              Parent Payments
+            </h2>
+            <div className="h-64">
+              {loading ? (
+                <p className="text-[#4A5568] text-center h-full flex items-center justify-center">
+                  Loading...
+                </p>
+              ) : (
+                <Bar data={parentPaymentData} options={chartOptions} />
+              )}
+            </div>
+          </div>
+          <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
+              Therapist Earnings
+            </h2>
+            <div className="h-64">
+              {loading ? (
+                <p className="text-[#4A5568] text-center h-full flex items-center justify-center">
+                  Loading...
+                </p>
+              ) : (
+                <Bar data={therapistPaymentData} options={chartOptions} />
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg mb-6">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
-            Parent Payment Summary
+        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
+            Payment Breakdown
           </h2>
-          <p className="text-gray-400 text-sm mb-4">
-            Parents can book up to 5 appointments per month for free. Additional
-            appointments are charged $50 each. System deducts 2% as a fee.
-          </p>
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b border-gray-700">
-                <th className="py-3 text-gray-200 font-medium">Parent</th>
-                <th className="py-3 text-gray-200 font-medium">Booked</th>
-                <th className="py-3 text-gray-200 font-medium">Paid ($)</th>
-                <th className="py-3 text-gray-200 font-medium">
-                  System Fee ($)
-                </th>
-                <th className="py-3 text-gray-200 font-medium">Net ($)</th>
-                <th className="py-3 text-gray-200 font-medium">Month</th>
-                <th className="py-3 text-gray-200 font-medium">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentParentItems.map((payment, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
-                >
-                  <td className="py-3 text-gray-300">{payment.parent}</td>
-                  <td className="py-3 text-gray-300">{payment.booked}</td>
-                  <td className="py-3 text-gray-300">{payment.paid}</td>
-                  <td className="py-3 text-gray-300">{payment.systemFee}</td>
-                  <td className="py-3 text-gray-300">{payment.net}</td>
-                  <td className="py-3 text-gray-300">{payment.month}</td>
-                  <td className="py-3 text-gray-300">{payment.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalParentPages}
-            onPageChange={handleParentPageChange}
-            itemsPerPage={itemsPerPage}
-          />
-        </div>
-
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
-            Therapist Payment Summary
-          </h2>
-          <p className="text-gray-400 text-sm mb-4">
-            Therapists are paid $50 per appointment after completing 5 free
-            appointments per month. System deducts 2% on withdrawals.
-          </p>
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b border-gray-700">
-                <th className="py-3 text-gray-200 font-medium">Therapist</th>
-                <th className="py-3 text-gray-200 font-medium">Completed</th>
-                <th className="py-3 text-gray-200 font-medium">Earned ($)</th>
-                <th className="py-3 text-gray-200 font-medium">
-                  System Fee ($)
-                </th>
-                <th className="py-3 text-gray-200 font-medium">
-                  Withdrawn ($)
-                </th>
-                <th className="py-3 text-gray-200 font-medium">
-                  Net Withdrawn ($)
-                </th>
-                <th className="py-3 text-gray-200 font-medium">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentTherapistItems.map((payment, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
-                >
-                  <td className="py-3 text-gray-300">{payment.therapist}</td>
-                  <td className="py-3 text-gray-300">{payment.completed}</td>
-                  <td className="py-3 text-gray-300">{payment.earned}</td>
-                  <td className="py-3 text-gray-300">
-                    {payment.systemFeeOnWithdraw}
-                  </td>
-                  <td className="py-3 text-gray-300">{payment.withdrawn}</td>
-                  <td className="py-3 text-gray-300">{payment.netWithdrawn}</td>
-                  <td className="py-3 text-gray-300">{payment.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Pagination
-            currentPage={currentTherapistPage}
-            totalPages={totalTherapistPages}
-            onPageChange={handleTherapistPageChange}
-            itemsPerPage={itemsPerPage}
-          />
+          <div className="h-64">
+            {loading ? (
+              <p className="text-[#4A5568] text-center h-full flex items-center justify-center">
+                Loading...
+              </p>
+            ) : (
+              <Pie data={paymentBreakdownData} options={chartOptions} />
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@ export default function Appointments() {
         setTotalAppointments(total.toString());
 
         // Fetch appointment list
-        const response = await fetch("/api/appointments", { cache: "no-store" });
+        const response = await fetch("/api/appointment", { cache: "no-store" });
         if (!response.ok) throw new Error("Failed to fetch appointments");
         const data = await response.json();
         setAppointments(data);
@@ -67,19 +67,19 @@ export default function Appointments() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-white text-gray-800">
       <Sidebar open={open} setOpen={setOpen} />
 
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-gray-100 mb-4">
+        <h1 className="text-3xl font-semibold text-[#2D3748] mb-4">
           Appointments
         </h1>
-        <p className="text-gray-400 mb-6 text-sm">
+        <p className="text-[#4A5568] mb-6 text-sm">
           Manage and monitor all scheduled appointments as of{" "}
           {format(new Date(), "hh:mm a 'EAT', MMMM d, yyyy")}
         </p>
 
-        {error && <div className="text-red-500 mb-4">Error: {error}</div>}
+        {error && <div className="text-[#FF8A80] mb-4">Error: {error}</div>}
 
         <SearchBar
           placeholder="Search by therapist, parent, date, time, or status..."
@@ -88,70 +88,70 @@ export default function Appointments() {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <Calendar className="h-6 w-6 text-gray-400" />
+              <Calendar className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">
+            <h3 className="text-lg font-medium text-[#2D3748]">
               Total Appointments
             </h3>
-            <p className="text-2xl font-semibold text-white mt-2">
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">
               {loading ? "Loading..." : error ? "Error" : appointments.length}
             </p>
           </div>
-          <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800">
+          <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2]">
             <div className="flex justify-center mb-3">
-              <Users className="h-6 w-6 text-gray-400" />
+              <Users className="h-6 w-6 text-[#26A69A]" />
             </div>
-            <h3 className="text-lg font-medium text-gray-200">
+            <h3 className="text-lg font-medium text-[#2D3748]">
               Active Therapists
             </h3>
-            <p className="text-2xl font-semibold text-white mt-2">3</p>
+            <p className="text-2xl font-semibold text-[#26A69A] mt-2">3</p>
           </div>
         </div>
 
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
             Appointment List
           </h2>
           {loading ? (
-            <p className="text-gray-400">Loading appointments...</p>
+            <p className="text-[#4A5568]">Loading appointments...</p>
           ) : error ? (
-            <p className="text-red-500">Failed to load appointments</p>
+            <p className="text-[#FF8A80]">Failed to load appointments</p>
           ) : appointments.length === 0 ? (
-            <p className="text-gray-400">No appointments found</p>
+            <p className="text-[#4A5568]">No appointments found</p>
           ) : (
             <>
               <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-3 text-gray-200 font-medium">Therapist</th>
-                    <th className="py-3 text-gray-200 font-medium">Parent</th>
-                    <th className="py-3 text-gray-200 font-medium">Date</th>
-                    <th className="py-3 text-gray-200 font-medium">Time</th>
-                    <th className="py-3 text-gray-200 font-medium">Status</th>
+                  <tr className="border-b border-[#FFE0B2]">
+                    <th className="py-3 text-[#2D3748] font-medium">Therapist</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Parent</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Date</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Time</th>
+                    <th className="py-3 text-[#2D3748] font-medium">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentItems.map((appointment, index) => (
                     <tr
                       key={index}
-                      className="border-b border-gray-700 hover:bg-gray-800 transition duration-200"
+                      className="border-b border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200"
                     >
-                      <td className="py-3 text-gray-300">
+                      <td className="py-3 text-[#4A5568]">
                         {appointment.therapist}
                       </td>
-                      <td className="py-3 text-gray-300">{appointment.parent}</td>
-                      <td className="py-3 text-gray-300">{appointment.date}</td>
-                      <td className="py-3 text-gray-300">{appointment.time}</td>
+                      <td className="py-3 text-[#4A5568]">{appointment.parent}</td>
+                      <td className="py-3 text-[#4A5568]">{appointment.date}</td>
+                      <td className="py-3 text-[#4A5568]">{appointment.time}</td>
                       <td className="py-3">
                         <span
                           className={`px-3 py-1 rounded-full text-sm ${
                             appointment.status === "Completed"
-                              ? "bg-green-600"
+                              ? "bg-[#81C784]"
                               : appointment.status === "Scheduled"
-                              ? "bg-blue-600"
-                              : "bg-yellow-600"
+                              ? "bg-[#26A69A]"
+                              : "bg-[#FFB74D]"
                           } text-white`}
                         >
                           {appointment.status}

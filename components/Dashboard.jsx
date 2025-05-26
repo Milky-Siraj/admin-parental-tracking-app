@@ -33,22 +33,22 @@ ChartJS.register(
 // Reusable components
 function MetricCard({ title, value, change, icon }) {
   return (
-    <div className="bg-[#1A1A1A] p-5 rounded-lg shadow-md text-center border border-gray-800 hover:bg-gray-800 transition duration-200">
+    <div className="bg-[#FFF8E1] p-5 rounded-lg shadow-md text-center border border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200">
       <div className="flex justify-center mb-3">{icon}</div>
-      <h3 className="text-lg font-medium text-gray-200">{title}</h3>
-      <p className="text-2xl font-semibold text-white mt-2">{value}</p>
-      <p className="text-green-400 text-sm mt-1">{change} from last month</p>
+      <h3 className="text-lg font-medium text-[#2D3748]">{title}</h3>
+      <p className="text-2xl font-semibold text-[#26A69A] mt-2">{value}</p>
+      <p className="text-[#81C784] text-sm mt-1">{change} from last month</p>
     </div>
   );
 }
 
 function ActivityItem({ user, action, time }) {
   return (
-    <div className="flex items-center justify-between py-3 border-b border-gray-700 hover:bg-gray-800 transition duration-200">
-      <span className="text-gray-300 text-sm">
+    <div className="flex items-center justify-between py-3 border-b border-[#FFE0B2] hover:bg-[#FFE0B2] transition duration-200">
+      <span className="text-[#4A5568] text-sm">
         {user} {action}
       </span>
-      <span className="text-gray-500 text-xs">{time}</span>
+      <span className="text-[#4DB6AC] text-xs">{time}</span>
     </div>
   );
 }
@@ -237,28 +237,28 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
+    <div className="flex min-h-screen bg-white text-gray-800">
       <Sidebar open={open} setOpen={setOpen} />
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-gray-100 mb-6">Dashboard</h1>
-        <p className="text-gray-400 mb-8 text-sm">
+        <h1 className="text-3xl font-semibold text-[#2D3748] mb-6">Dashboard</h1>
+        <p className="text-[#4A5568] mb-8 text-sm">
           Overview of the platform's key metrics and activities as of{" "}
           {currentTime || "Loading..."}
         </p>
-        {error && <div className="text-red-500 mb-4">Error: {error}</div>}
+        {error && <div className="text-[#FF8A80] mb-4">Error: {error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => (
             <MetricCard key={index} {...metric} />
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-200 mb-4">
+          <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
               Health Log Trends
             </h2>
             <div className="h-64">
               {loading || !currentTime || !healthLogData ? (
-                <p className="text-gray-400 text-center h-full flex items-center justify-center">
+                <p className="text-[#4A5568] text-center h-full flex items-center justify-center">
                   {loading || !currentTime ? "Loading..." : "No data available"}
                 </p>
               ) : (
@@ -266,13 +266,13 @@ export default function Dashboard() {
               )}
             </div>
           </div>
-          <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-200 mb-4">
+          <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
               Appointment Bookings by Therapist
             </h2>
             <div className="h-64">
               {loading || !currentTime || !appointmentChartData ? (
-                <p className="text-gray-400 text-center h-full flex items-center justify-center">
+                <p className="text-[#4A5568] text-center h-full flex items-center justify-center">
                   {loading || !currentTime ? "Loading..." : "No data available"}
                 </p>
               ) : (
@@ -281,16 +281,16 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="bg-[#1A1A1A] p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
             Recent Activities
           </h2>
           {loading || !currentTime ? (
-            <p className="text-gray-400">Loading activities...</p>
+            <p className="text-[#4A5568]">Loading activities...</p>
           ) : error ? (
-            <p className="text-red-500">Failed to load activities</p>
+            <p className="text-[#FF8A80]">Failed to load activities</p>
           ) : recentActivities.length === 0 ? (
-            <p className="text-gray-400">No recent activities found</p>
+            <p className="text-[#4A5568]">No recent activities found</p>
           ) : (
             recentActivities.map((activity, index) => (
               <ActivityItem key={index} {...activity} />
