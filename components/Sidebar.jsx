@@ -19,7 +19,7 @@ const navigation = [
   { name: "Appointments", href: "/dashboard/appointments", icon: Calendar },
   { name: "Reports", href: "/dashboard/reports", icon: FileText },
   { name: "Parent", href: "/dashboard/parent", icon: Users },
-  { name: "Payments", href: "/dashboard/payments", icon: MessageSquare },
+  // { name: "Payments", href: "/dashboard/payments", icon: MessageSquare },
 ];
 
 function className(...classes) {
@@ -48,7 +48,9 @@ export default function Sidebar({ open, setOpen }) {
         <div className="flex h-full flex-col">
           <div className="flex h-16 shrink-0 items-center border-b border-[#FFE0B2] px-6">
             <BrainCircuit className="h-8 w-8 text-[#26A69A]" />
-            <span className="ml-3 text-xl font-semibold text-[#2D3748]">Admin Portal</span>
+            <span className="ml-3 text-xl font-semibold text-[#2D3748]">
+              Admin Portal
+            </span>
             <button
               type="button"
               className="ml-auto lg:hidden"
