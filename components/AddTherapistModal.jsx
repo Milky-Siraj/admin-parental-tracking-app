@@ -6,6 +6,7 @@ export default function AddTherapistModal({ isOpen, onClose, onAddTherapist }) {
     first_name: "",
     last_name: "",
     email: "",
+    phone_number: "", // Added phone_number to state
   });
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
@@ -18,8 +19,13 @@ export default function AddTherapistModal({ isOpen, onClose, onAddTherapist }) {
       setError("Please enter a valid email address.");
       return;
     }
-    if (file && !file.name.endsWith(".pdf")) {
-      setError("Please upload a PDF file.");
+    if (file && !file.name.match(/\.(pdf|png|jpg|jpeg)$/i)) {
+      setError("Please upload a PDF, PNG, or JPG file.");
+      return;
+    }
+    // Add basic phone number validation (e.g., at least 7 digits, allowing international formats)
+    if (!/^\+?[1-9]\d{6,14}$/.test(formData.phone_number)) {
+      setError("Please enter a valid phone number (e.g., +1234567890).");
       return;
     }
 
@@ -28,6 +34,7 @@ export default function AddTherapistModal({ isOpen, onClose, onAddTherapist }) {
       data.append("first_name", formData.first_name);
       data.append("last_name", formData.last_name);
       data.append("email", formData.email);
+      data.append("phone_number", formData.phone_number); // Added phone_number to FormData
       if (file) {
         data.append("edu_document", file);
       }
@@ -37,13 +44,14 @@ export default function AddTherapistModal({ isOpen, onClose, onAddTherapist }) {
         first_name: "",
         last_name: "",
         email: "",
+        phone_number: "", // Reset phone_number
       });
       setFile(null);
       onClose();
     } catch (err) {
       setError(
-        err.message.includes("Only PDF files")
-          ? "Please upload a valid PDF file."
+        err.message.includes("Only PDF, PNG, or JPG files")
+          ? "Please upload a valid PDF, PNG, or JPG file."
           : err.message.includes("Missing required fields")
           ? "Please fill in all required fields."
           : err.message || "Failed to add therapist."
@@ -124,13 +132,29 @@ export default function AddTherapistModal({ isOpen, onClose, onAddTherapist }) {
             />
           </div>
           <div className="mb-4">
+            <label htmlFor="phone_number" className="block text-gray-300 mb-1">
+              Phone Number
+            </label>
+            <input
+              id="phone_number"
+              type="tel"
+              value={formData.phone_number}
+              onChange={(e) =>
+                setFormData({ ...formData, phone_number: e.target.value })
+              }
+              placeholder="+1234567890"
+              className="w-full p-2 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:border-indigo-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
             <label htmlFor="edu_document" className="block text-gray-300 mb-1">
-              Educational Document (PDF)
+              Educational Document (PDF, PNG, JPG)
             </label>
             <input
               id="edu_document"
               type="file"
-              accept="application/pdf"
+              accept="application/pdf,image/png,image/jpeg"
               onChange={handleFileChange}
               className="w-full p-2 bg-gray-800 text-white rounded border border-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-indigo-600 file:text-white hover:file:bg-indigo-500"
             />

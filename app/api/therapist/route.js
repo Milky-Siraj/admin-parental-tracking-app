@@ -180,7 +180,14 @@ export async function POST(request) {
       await client.query(
         "INSERT INTO core_therapist (user_id, edu_document, admin_approved, created_at, updated_at, is_verified) " +
           "VALUES ($1, $2, $3, $4, $5, $6)",
-        [user.id, edu_document, false, new Date().toISOString(), new Date().toISOString(), false]
+        [
+          user.id,
+          edu_document,
+          false,
+          new Date().toISOString(),
+          new Date().toISOString(),
+          false,
+        ]
       );
 
       await client.query("COMMIT");
@@ -296,7 +303,14 @@ export async function PATCH(request) {
           await client.query(
             "INSERT INTO core_therapist (user_id, edu_document, admin_approved, created_at, updated_at, is_verified) " +
               "VALUES ($1, $2, $3, $4, $5, $6)",
-            [therapist.id, originalEduDocument, true, new Date().toISOString(), new Date().toISOString(), true]
+            [
+              therapist.id,
+              originalEduDocument,
+              true,
+              new Date().toISOString(),
+              new Date().toISOString(),
+              true,
+            ]
           );
 
           // Delete from core_pendinguser

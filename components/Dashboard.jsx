@@ -151,45 +151,45 @@ export default function Dashboard() {
     {
       title: "Total Parents",
       value: loading ? "Loading..." : error ? "Error" : parentCount,
-      change: "+4.75%",
+      change: "+0%",
       icon: <Users className="h-6 w-6 text-gray-400" />,
     },
     {
       title: "Active Therapists",
       value: loading ? "Loading..." : error ? "Error" : therapistCount,
-      change: "+12.3%",
+      change: "+0%",
       icon: <Users className="h-6 w-6 text-gray-400" />,
     },
     {
       title: "Registered Children",
       value: loading ? "Loading..." : error ? "Error" : childCount,
-      change: "+2.3%",
+      change: "+0%",
       icon: <Users className="h-6 w-6 text-gray-400" />,
     },
-    {
-      title: "Active Sessions",
-      value: "89",
-      change: "+5.4%",
-      icon: <Calendar className="h-6 w-6 text-gray-400" />,
-    },
+    // {
+    //   title: "Active Sessions",
+    //   value: "89",
+    //   change: "+5.4%",
+    //   icon: <Calendar className="h-6 w-6 text-gray-400" />,
+    // },
     {
       title: "Health Logs Submitted",
       value: loading ? "Loading..." : error ? "Error" : healthLogCount,
-      change: "+8.1%",
+      change: "+0%",
       icon: <FileText className="h-6 w-6 text-gray-400" />,
     },
     {
       title: "Appointment Bookings",
       value: loading ? "Loading..." : error ? "Error" : bookedAppointmentsCount,
-      change: "+5.0%",
+      change: "+0%",
       icon: <Calendar className="h-6 w-6 text-gray-400" />,
     },
-    {
-      title: "Chat Messages",
-      value: "320",
-      change: "+15.2%",
-      icon: <MessageCircle className="h-6 w-6 text-gray-400" />,
-    },
+    // {
+    //   title: "Chat Messages",
+    //   value: "320",
+    //   change: "+0",
+    //   icon: <MessageCircle className="h-6 w-6 text-gray-400" />,
+    // },
   ];
 
   const healthLogData = healthLogTrends
@@ -240,7 +240,9 @@ export default function Dashboard() {
     <div className="flex min-h-screen bg-white text-gray-800">
       <Sidebar open={open} setOpen={setOpen} />
       <div className="flex-1 ml-0 lg:ml-72 p-8">
-        <h1 className="text-3xl font-semibold text-[#2D3748] mb-6">Dashboard</h1>
+        <h1 className="text-3xl font-semibold text-[#2D3748] mb-6">
+          Dashboard
+        </h1>
         <p className="text-[#4A5568] mb-8 text-sm">
           Overview of the platform's key metrics and activities as of{" "}
           {currentTime || "Loading..."}
@@ -281,7 +283,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
+        {/* <div className="bg-[#FFF8E1] p-6 rounded-lg shadow-lg">
           <h2 className="text-xl font-semibold text-[#2D3748] mb-4">
             Recent Activities
           </h2>
@@ -296,7 +298,7 @@ export default function Dashboard() {
               <ActivityItem key={index} {...activity} />
             ))
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

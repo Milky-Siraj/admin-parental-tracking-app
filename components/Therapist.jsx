@@ -139,7 +139,10 @@ export default function Therapists() {
   const totalPages = Math.ceil(filteredTherapists.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredTherapists.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredTherapists.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -151,12 +154,12 @@ export default function Therapists() {
       <div className="flex-1 ml-0 lg:ml-72 p-8">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-semibold text-[#2D3748]">Therapists</h1>
-          <button
+          {/* <button
             onClick={() => setIsModalOpen(true)}
             className="py-2 px-4 bg-[#26A69A] text-white rounded-lg hover:bg-[#4DB6AC] transition duration-200"
           >
             Add Therapist
-          </button>
+          </button> */}
         </div>
         <p className="text-[#4A5568] mb-6 text-sm">
           Manage and monitor all therapists as of {currentTime || "Loading..."}
@@ -267,7 +270,9 @@ export default function Therapists() {
                           Accept
                         </button>
                         <button
-                          onClick={() => handleUpdateStatus(therapist.id, false)}
+                          onClick={() =>
+                            handleUpdateStatus(therapist.id, false)
+                          }
                           disabled={
                             updating[therapist.id] || !therapist.admin_approved
                           }
@@ -293,11 +298,11 @@ export default function Therapists() {
             </>
           )}
         </div>
-        <AddTherapistModal
+        {/* <AddTherapistModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onAddTherapist={handleAddTherapist}
-        />
+        /> */}
       </div>
     </div>
   );
