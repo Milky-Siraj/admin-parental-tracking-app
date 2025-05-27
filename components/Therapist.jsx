@@ -232,7 +232,7 @@ export default function Therapists() {
                         {therapist.credentials !== "N/A" ? (
                           <span className="flex items-center">
                             <a
-                              href={therapist.credentials}
+                              href="https://res.cloudinary.com/dljcttiew/raw/upload/v1748311054/pending_/ihzyemojv1xzoteqxsy1.png"
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-[#26A69A] hover:underline"
